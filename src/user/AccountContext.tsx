@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import { Account } from "./Account"
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { toast } from "react-toastify";
+import { CHAIN_ID, CHAIN_PUBLIC_RPC } from "./Chain";
 
 export type WalletType = 'MetaMask' | 'WalletConnect';
 
@@ -55,10 +56,7 @@ export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
             } else if (walletType === 'WalletConnect') {
                 walletProvider = new WalletConnectProvider({
                     rpc: {
-                        137: 'https://rpc-mainnet.matic.network',
-                        250: 'https://rpc.ankr.com/fantom/',
-                        4002: 'https://rpc.testnet.fantom.network/',
-                        43114: 'https://api.avax.network/ext/bc/C/rpc'
+                        [CHAIN_ID]: CHAIN_PUBLIC_RPC
                     }
                 });
 

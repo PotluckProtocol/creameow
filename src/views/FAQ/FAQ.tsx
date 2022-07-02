@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Collapse from "../../components/Collapse/Collapse";
+import Title, { TitleType } from "../../components/Title";
 import { FAQItems } from "./FAQItems";
 
 export type FAQItem = {
@@ -34,6 +35,7 @@ const FAQ = () => {
 
     return (
         <Container>
+            <Title type={TitleType.FAQ} className="text-center mb-4" />
             {FAQItems.map((item) => (
                 <Collapse
                     className={'mb-4'}
