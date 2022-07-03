@@ -1,5 +1,3 @@
-import classNames from "classnames";
-
 export enum TitleType {
     MintingNow,
     Meowverse,
@@ -21,12 +19,9 @@ const Title: React.FC<TitleProps> = ({
     className,
     type
 }) => {
-
-    const classes = classNames('text-center', className);
-
     return (
-        <div className={classes}>
-            <img src={TITLE_IMAGE_MAP[type]} />
+        <div className={className}>
+            <img src={TITLE_IMAGE_MAP[type]} className="mx-auto" />
         </div>
     );
 }
