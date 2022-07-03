@@ -19,7 +19,9 @@ const Logo = styled.img`
 `;
 
 const Link = styled.a`
-    margin: 0 1rem;
+    font-family: Inter;
+    font-size: 16px;
+    margin: 0 2rem;
 `;
 
 const TopMenu: React.FC<TopMenuProps> = ({

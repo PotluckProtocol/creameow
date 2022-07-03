@@ -16,11 +16,13 @@ const Container = styled.div`
 const Image = styled.img``;
 
 const TextContainer = styled.div`
-    max-width: 738px;
+    max-width: 1050px;
 `;
 
 const Paragraph = styled.p`
     text-align: center;
+    font-size: 18px;
+    font-family: Inter;
     margin: 0;
     padding: 0;
 `;
@@ -30,7 +32,7 @@ const Artist: React.FC<ArtistProps> = ({
 }) => {
     return (
         <Container className={className}>
-            <Image src='/images/artist/huyenle.png' className="mx-auto" />
+            <Image src='/images/artist/huyenle.png' className="mx-auto mb-8" />
 
             <div className="mb-24">
                 <TextContainer className="mx-auto mb-4">

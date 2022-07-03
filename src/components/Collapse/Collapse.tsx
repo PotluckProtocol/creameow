@@ -19,12 +19,21 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 1.5rem;
+    font-size: 32px;
+    font-family: Inter;
     font-weight: 600;
 `;
 
 const Content = styled.button`
     text-align: left;
+    font-size: 22px;
+    font-family: Inter;
+    font-weight: 600;
+`;
+
+const PositionedIcon = styled(Icon)`
+    margin-top: .8rem;
+    margin-right: 1.5rem;
 `;
 
 const Collapse: React.FC<CollapseProps> = ({
@@ -39,7 +48,7 @@ const Collapse: React.FC<CollapseProps> = ({
     const conditionallyRenderContent = () => {
         if (open) {
             return (
-                <Content>
+                <Content className="mt-4">
                     {content}
                 </Content>
             );
@@ -51,7 +60,7 @@ const Collapse: React.FC<CollapseProps> = ({
     return (
         <Container onClick={onClick} id={id} className={containerClasses}>
             <div>
-                <Icon className={'mt-2 mr-4'} type={open ? IconType.Open : IconType.Closed} />
+                <PositionedIcon type={open ? IconType.Open : IconType.Closed} />
             </div>
             <div>
                 <Title>{title}</Title>
