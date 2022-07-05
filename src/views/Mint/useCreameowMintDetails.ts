@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useMintContract from "./useMintContract";
 import { MintContractEvents, MintState } from "./useMintContract/MintContract";
 
-const MINT_CONTRACT_ADDRESS = '0xAc1c9E4033a6Fa42aB4F86B7BF8A6580F8756A30'; // ROBOTO FTM!!
+const MINT_CONTRACT_ADDRESS = '0xE3763f557933B3396795ad3920Dd7D191359CcEF'; // ROBOTO FTM!!
 
 export type MintDetails = {
     maxSupply: number;
