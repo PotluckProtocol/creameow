@@ -7,6 +7,7 @@ import Meowverse from './views/Meowverse';
 import Artist from './views/Artist';
 import FAQ from './views/FAQ';
 import Footer from './views/Footer';
+import Mint from './views/Mint';
 
 const NAVIGATION_LINKS: NavigationLink[] = [{
     text: 'Mint',
@@ -40,6 +41,7 @@ const App = () => {
                     navigationLinks={NAVIGATION_LINKS}
                 />
 
+                <Mint />
                 <About />
                 <Meowverse />
                 <Artist />

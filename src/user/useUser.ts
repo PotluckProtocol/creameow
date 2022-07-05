@@ -1,18 +1,10 @@
 import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
-import { Account } from "./Account";
 import { AccountContext } from "./AccountContext";
 import { CHAIN_PUBLIC_RPC } from "./Chain";
-
-export type ProviderOrSigner = ethers.providers.Provider | ethers.Signer;
+import User, { ProviderOrSigner } from "./User";
 
 const PUBLIC_PROVIDER = new ethers.providers.JsonRpcProvider(CHAIN_PUBLIC_RPC);
-
-export type User = {
-    account: Account | null;
-    isInitialized: boolean;
-    getSignerOrProvider(): ProviderOrSigner;
-}
 
 const useUser = (): User => {
     const accountContext = useContext(AccountContext);
