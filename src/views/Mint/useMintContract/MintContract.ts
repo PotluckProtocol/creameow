@@ -1,5 +1,6 @@
 import { BigNumber, Contract, ethers } from "ethers";
 import EventEmitter from "events";
+import { NumericLiteral } from "typescript";
 import User from "../../../user/User";
 import mintingAbi from './abi';
 
@@ -18,6 +19,8 @@ export type MintContractOpts = {
     mintStateRefreshIntervalMs?: number;
     mintSupplyRefreshIntervalMs?: number;
     fixedMaxSupply?: number;
+    fixedMaxPerTx?: number;
+    fixedMintPrice?: BigNumber;
 }
 
 class MintContract extends EventEmitter {
@@ -28,7 +31,7 @@ class MintContract extends EventEmitter {
 
     constructor(
         contractAddress: string,
-        user: User,
+        private user: User,
         private opts: MintContractOpts = {}
     ) {
         super();
@@ -78,6 +81,33 @@ class MintContract extends EventEmitter {
         this.emit(MintContractEvents.MintStateUpdated, mintState);
 
         return mintState;
+    }
+
+    public async getMintPrice(): Promise<BigNumber> {
+        if (BigNumber.isBigNumber(this.opts.fixedMintPrice)) {
+            return this.opts.fixedMintPrice;
+        }
+        return this.contract.price();
+    }
+
+    public async getMaxPerTx(): Promise<number> {
+        if (typeof this.opts.fixedMaxPerTx === 'number') {
+            return this.opts.fixedMaxPerTx;
+        }
+
+        const res = await this.contract.maxPerTx() as BigNumber;
+        return res.toNumber();
+    }
+
+    public async mint(amount: number): Promise<void> {
+        if (!this.user.account) {
+            throw new Error('Only connected account can mint');
+        }
+
+        const mintPrice = await this.getMintPrice();
+        await this.contract.mint(amount, {
+            value: mintPrice.mul(amount)
+        });
     }
 
     public clear() {

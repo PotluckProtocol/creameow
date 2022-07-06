@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ConnectWalletButton } from './ConnectWalletButton';
 
 export type NavigationLink = {
     text: string;
@@ -21,7 +22,7 @@ const Logo = styled.img`
 const Link = styled.a`
     font-family: Inter;
     font-size: 16px;
-    margin: 0 2rem;
+    margin: 0 1.5rem;
 `;
 
 const TopMenu: React.FC<TopMenuProps> = ({
@@ -34,6 +35,8 @@ const TopMenu: React.FC<TopMenuProps> = ({
                 {navigationLinks.map((link, index) => (
                     <Link key={index} href={link.navTo}>{link.text}</Link>
                 ))}
+
+                <ConnectWalletButton className='ml-12' />
             </div>
         </Nav>
     );

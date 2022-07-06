@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import styled from "styled-components";
 import ProgressBar from "../../components/ProgressBar";
 import Title, { TitleType } from "../../components/Title";
@@ -9,12 +10,21 @@ export type MintProps = {
 }
 
 const Container = styled.div`
-
+    max-width: 520px;
 `;
 
 const ProgressBarContainer = styled.div`
-    max-width: 800px;
+    max-width: 420px;
     margin: 0 auto;
+`;
+
+
+const Paragraph = styled.p`
+    text-align: center;
+    font-size: 18px;
+    font-family: Inter;
+    margin: 0;
+    padding: 0;
 `;
 
 const Image = styled.img`
@@ -32,12 +42,24 @@ const Mint: React.FC<MintProps> = ({
 
     console.log(mintDetails);
 
-    return (
-        <Container className={className}>
+    const containerClasses = classNames('mt-12', 'mx-auto', className);
 
+    return (
+        <Container className={containerClasses}>
             <Title type={TitleType.MintingNow} />
 
-            <Image className="mx-auto" src='/images/mint/meow.png' />
+            <Image className="mx-auto mb-3" src='/images/mint/meow.png' />
+
+            <div className="mb-9">
+                <Paragraph>
+                    Adopt yourself a Creameow<br />
+                    5,555 uniquely generated, cute and collectible meow with proof of ownership stored on the ETH blockchain.
+                </Paragraph>
+            </div>
+
+            <div className="text-center mb-9">
+                <MintButton className="mx-auto ">MINT</MintButton>
+            </div>
 
             <ProgressBarContainer>
                 <ProgressBar
@@ -47,9 +69,7 @@ const Mint: React.FC<MintProps> = ({
                 />
             </ProgressBarContainer>
 
-            <div className="text-center">
-                <MintButton className="mx-auto ">MINT</MintButton>
-            </div>
+
         </Container>
     )
 }

@@ -2,6 +2,7 @@ import MintContract from "./useMintContract/MintContract";
 import { useEffect, useState } from "react";
 import useMintContract from "./useMintContract";
 import { MintContractEvents, MintState } from "./useMintContract/MintContract";
+import { BigNumber } from "ethers";
 
 const MINT_CONTRACT_ADDRESS = '0xE3763f557933B3396795ad3920Dd7D191359CcEF'; // ROBOTO FTM!!
 
@@ -9,6 +10,8 @@ export type MintDetails = {
     maxSupply: number;
     mintedSupply: number;
     mintState: number;
+    mintPrice: BigNumber;
+    maxPerTx: number;
     mintContract: MintContract;
 }
 
@@ -22,17 +25,21 @@ const useCreameowMintDetails = (): MintDetails | null => {
                 try {
                     console.log('Initializing mint details');
 
-                    const [maxSupply, mintState, mintedSupply] = await Promise.all([
+                    const [maxSupply, mintState, mintedSupply, maxPerTx, mintPrice] = await Promise.all([
                         mintContract.getMaxSupply(),
                         mintContract.getMintState(),
-                        mintContract.getMintedSupply()
+                        mintContract.getMintedSupply(),
+                        mintContract.getMaxPerTx(),
+                        mintContract.getMintPrice()
                     ]);
 
                     setMintDetails({
                         maxSupply,
                         mintContract,
                         mintedSupply,
-                        mintState
+                        mintState,
+                        maxPerTx,
+                        mintPrice
                     });
 
                     mintContract.on(MintContractEvents.MintSupplyUpdated, (mintedSupply: number) => {
