@@ -4,6 +4,8 @@ import useMintContract from "./useMintContract";
 import { MintContractEvents, MintState } from "./useMintContract/MintContract";
 import { BigNumber } from "ethers";
 
+const PUBLIC_MINT_STARTS_AT: string = '2022-07-16T20:00:00Z';
+const WHITELIST_MINT_STARTS_AT: string = '2022-07-15T20:00:00Z';
 const MINT_CONTRACT_ADDRESS = '0xE3763f557933B3396795ad3920Dd7D191359CcEF'; // ROBOTO FTM!!
 
 export type MintDetails = {
@@ -11,6 +13,8 @@ export type MintDetails = {
     mintedSupply: number;
     mintState: number;
     mintPrice: BigNumber;
+    mintPublicStartsAt: Date;
+    mintWhitelistStartsAt: Date;
     maxPerTx: number;
     mintContract: MintContract;
 }
@@ -39,7 +43,9 @@ const useCreameowMintDetails = (): MintDetails | null => {
                         mintedSupply,
                         mintState,
                         maxPerTx,
-                        mintPrice
+                        mintPrice,
+                        mintPublicStartsAt: new Date(PUBLIC_MINT_STARTS_AT),
+                        mintWhitelistStartsAt: new Date(WHITELIST_MINT_STARTS_AT)
                     });
 
                     mintContract.on(MintContractEvents.MintSupplyUpdated, (mintedSupply: number) => {
