@@ -42,7 +42,7 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
 
     return (
         <>
-            <Button className={className} onClick={handleButtonClick}>
+            <Button color='light' fontSize={24} className={className} onClick={handleButtonClick}>
                 {connectButtonText}
             </Button>
 

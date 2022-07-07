@@ -29,7 +29,7 @@ const TopMenu: React.FC<TopMenuProps> = ({
     navigationLinks
 }) => {
     return (
-        <Nav className='flex items-center justify-between'>
+        <Nav className='md:flex md:items-center md:justify-between'>
             <Logo src={'/images/logo.png'} alt="Creameow Logo" />
             <div>
                 {navigationLinks.map((link, index) => (
