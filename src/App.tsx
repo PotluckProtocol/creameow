@@ -11,21 +11,27 @@ import Mint from './views/Mint';
 import { useContext } from 'react';
 import { AccountContext } from './user/AccountContext';
 
+const VIEW_ID_MINT = 'mint';
+const VIEW_ID_ABOUT = 'about';
+const VIEW_ID_MEOWVERSE = 'meowverse';
+const VIEW_ID_ARTIST = 'artist';
+const VIEW_ID_FAQ = 'faq';
+
 const NAVIGATION_LINKS: NavigationLink[] = [{
     text: 'Mint',
-    navTo: ''
+    navTo: VIEW_ID_MINT
 }, {
     text: 'About',
-    navTo: ''
+    navTo: VIEW_ID_ABOUT
 }, {
     text: 'Meowverse',
-    navTo: ''
+    navTo: VIEW_ID_MEOWVERSE
 }, {
     text: 'Artist',
-    navTo: ''
+    navTo: VIEW_ID_ARTIST
 }, {
     text: 'FAQ',
-    navTo: ''
+    navTo: VIEW_ID_FAQ
 }];
 
 const AppContainer = styled.div`
@@ -50,11 +56,11 @@ const App = () => {
                     navigationLinks={NAVIGATION_LINKS}
                 />
 
-                <Mint />
-                <About />
-                <Meowverse />
-                <Artist />
-                <FAQ />
+                <Mint viewId={VIEW_ID_MINT} />
+                <About viewId={VIEW_ID_ABOUT} />
+                <Meowverse viewId={VIEW_ID_MEOWVERSE} />
+                <Artist viewId={VIEW_ID_ARTIST} />
+                <FAQ viewId={VIEW_ID_FAQ} />
                 <Footer />
 
             </AppContainer>

@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 export type AboutProps = {
     className?: string;
+    viewId: string;
 }
 
 const Container = styled.div`
@@ -27,10 +28,11 @@ const Paragraph = styled.p`
 `;
 
 const About: React.FC<AboutProps> = ({
-    className
+    className,
+    viewId
 }) => {
     return (
-        <Container className={className}>
+        <Container className={className} id={viewId}>
             <Image src='/images/about/creameow.png' className="mx-auto mb-4" />
 
             <TextContainer className="mx-auto">

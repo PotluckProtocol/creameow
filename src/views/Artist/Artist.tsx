@@ -2,6 +2,7 @@ import styled from "styled-components"
 import ArtistVideo from "./ArtistVideo";
 
 export type ArtistProps = {
+    viewId: string;
     className?: string;
 }
 
@@ -28,10 +29,11 @@ const Paragraph = styled.p`
 `;
 
 const Artist: React.FC<ArtistProps> = ({
-    className
+    className,
+    viewId
 }) => {
     return (
-        <Container className={className}>
+        <Container id={viewId} className={className}>
             <Image src='/images/artist/huyenle.png' className="mx-auto mb-8" />
 
             <div className="mb-24">

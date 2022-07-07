@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import AmountSelector from "../../components/AmountSelector";
 import Countdown from "../../components/Countdown/Countdown";
@@ -13,6 +14,7 @@ import useCreameowMintDetails from "./useCreameowMintDetails";
 import { MintState } from "./useMintContract/MintContract";
 
 export type MintProps = {
+    viewId: string;
     className?: string;
 }
 
@@ -70,11 +72,13 @@ enum MintViewState {
 }
 
 const Mint: React.FC<MintProps> = ({
-    className
+    className,
+    viewId
 }) => {
     const mintDetails = useCreameowMintDetails();
     const user = useUser();
     const [selectedAmount, setSelectedAmount] = useState<number>(1);
+    const [isMinting, setIsMinting] = useState(false);
 
     if (!mintDetails) {
         return <div>Loading...</div>
@@ -88,9 +92,24 @@ const Mint: React.FC<MintProps> = ({
     const containerClasses = classNames('mt-12', 'mx-auto', className);
     const hasWalletConnected = !!user.account;
     const isWhitelistSale = (mintDetails.mintState === MintState.Whitelist);
-    const mintButtonDisabled = mintDetails.mintState === MintState.NotStarted || (
-        isWhitelistSale && mintDetails.whitelistSpots === 0
+    const mintButtonDisabled = (
+        isMinting ||
+        mintDetails.mintState === MintState.NotStarted ||
+        (isWhitelistSale && mintDetails.whitelistSpots === 0)
     );
+
+    const handleClickMintButton = async () => {
+        setIsMinting(true);
+        try {
+            await mintDetails.mintContract.mint(selectedAmount);
+            toast('Mint successful', { theme: 'colored', type: 'success' });
+        } catch (e) {
+            console.log(`Error on minting`, e);
+            toast('Minting failed, please try again', { theme: 'colored', type: 'error' });
+        } finally {
+            setIsMinting(false);
+        }
+    }
 
     const renderWhitelistSpots = () => {
         if (hasWalletConnected && isWhitelistSale) {
@@ -104,7 +123,7 @@ const Mint: React.FC<MintProps> = ({
     }
 
     return (
-        <Container className={containerClasses}>
+        <Container className={containerClasses} id={viewId}>
             <Title type={mintViewState === MintViewState.Now ? TitleType.MintingNow : TitleType.MintingSoon} />
 
             {mintViewState === MintViewState.Soon && (
@@ -131,7 +150,9 @@ const Mint: React.FC<MintProps> = ({
 
             <div className="text-center mb-9">
                 {hasWalletConnected ? (
-                    <MintButton disabled={mintButtonDisabled} className="mx-auto ">MINT</MintButton>
+                    <MintButton onClick={handleClickMintButton} disabled={mintButtonDisabled} className="mx-auto">
+                        {isMinting ? 'MINTING...' : 'MINT'}
+                    </MintButton>
                 ) : (
                     <NotConnectedText>Connect your wallet to mint!</NotConnectedText>
                 )}

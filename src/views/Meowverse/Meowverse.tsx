@@ -6,6 +6,7 @@ import Phase from "./Phase";
 
 export type MeowverseProps = {
     className?: string;
+    viewId: string;
 }
 
 const Container = styled.div`
@@ -23,10 +24,11 @@ const CollectionName = styled.h3`
 `;
 
 const Meowverse: React.FC<MeowverseProps> = ({
-    className
+    className,
+    viewId
 }) => {
     return (
-        <Container className={className}>
+        <Container className={className} id={viewId}>
             <Title className="mb-8" type={TitleType.Meowverse} />
 
             <CollectionName className="mb-8">• CREAMEOW •</CollectionName>

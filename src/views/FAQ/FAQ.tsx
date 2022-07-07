@@ -4,6 +4,11 @@ import Collapse from "../../components/Collapse/Collapse";
 import Title, { TitleType } from "../../components/Title";
 import { FAQItems } from "./FAQItems";
 
+export type FAQProps = {
+    viewId: string;
+    className?: string;
+}
+
 export type FAQItem = {
     id: string;
     title: string;
@@ -16,7 +21,10 @@ const Container = styled.div`
     margin-right: auto;
 `;
 
-const FAQ = () => {
+const FAQ: React.FC<FAQProps> = ({
+    viewId,
+    className
+}) => {
 
     const [openCollapses, setOpenCollapses] = useState<string[]>([]);
 
@@ -34,7 +42,7 @@ const FAQ = () => {
     }
 
     return (
-        <Container>
+        <Container className={className} id={viewId}>
             <Title type={TitleType.FAQ} className="text-center mb-4" />
             {FAQItems.map((item) => (
                 <Collapse
