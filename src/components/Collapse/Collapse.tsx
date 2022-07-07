@@ -11,7 +11,8 @@ export type CollapseProps = {
     title: string;
 }
 
-const Container = styled.div`
+const Container = styled.button`
+    width: 100%;
     background-color: #FDF6EA;
     border: 3px solid #392E2C;
     border-radius: 2rem;
@@ -24,7 +25,7 @@ const Title = styled.div`
     font-weight: 600;
 `;
 
-const Content = styled.button`
+const Content = styled.div`
     text-align: left;
     font-size: 22px;
     font-family: Inter;

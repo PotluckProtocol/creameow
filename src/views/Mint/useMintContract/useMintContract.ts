@@ -5,7 +5,7 @@ import MintContract from "./MintContract";
 
 const MINT_STATE_REFRESH_INTERVAL_MS = 5000;
 const MINTED_SUPPLY_REFRESH_INTERVAL_MS = 5000;
-const FIXED_MAX_SUPPLY = undefined;
+const FIXED_MAX_SUPPLY = 5555;
 const FIXED_MINT_PRICE = BigNumber.from('30000000000000000');
 const FIXED_MAX_PER_TX = 5;
 
@@ -16,6 +16,7 @@ const useMintContract = (contractAddress: string) => {
 
     useEffect(() => {
         const init = async () => {
+            console.log('Init minting contract');
             const mintContract = new MintContract(contractAddress, user, {
                 fixedMaxSupply: FIXED_MAX_SUPPLY,
                 fixedMaxPerTx: FIXED_MAX_PER_TX,

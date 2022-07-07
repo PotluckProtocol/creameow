@@ -100,6 +100,7 @@ class MintContract extends EventEmitter {
     }
 
     public async getWhitelistSpots(): Promise<number> {
+        console.log('ACC', this.user.account);
         if (!this.user.account) {
             return 0;
         }

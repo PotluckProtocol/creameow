@@ -8,6 +8,8 @@ import Artist from './views/Artist';
 import FAQ from './views/FAQ';
 import Footer from './views/Footer';
 import Mint from './views/Mint';
+import { useContext } from 'react';
+import { AccountContext } from './user/AccountContext';
 
 const NAVIGATION_LINKS: NavigationLink[] = [{
     text: 'Mint',
@@ -33,6 +35,13 @@ const AppContainer = styled.div`
 `;
 
 const App = () => {
+
+    const account = useContext(AccountContext);
+
+    if (!account.isInitialized) {
+        return null;
+    }
+
     return (
         <>
             <AppContainer>

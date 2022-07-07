@@ -56,6 +56,14 @@ const MintedAmount = styled.div`
     text-align: center;
 `;
 
+const WhitelistSpots = styled.div`
+    text-align: center;
+    font-family: Inter;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+`;
+
 enum MintViewState {
     Now,
     Soon
@@ -72,16 +80,28 @@ const Mint: React.FC<MintProps> = ({
         return <div>Loading...</div>
     }
 
+    console.log('Mint details', mintDetails);
+
     const mintViewState: MintViewState = (mintDetails.mintState === MintState.NotStarted)
         ? MintViewState.Soon
         : MintViewState.Now;
-
     const containerClasses = classNames('mt-12', 'mx-auto', className);
     const hasWalletConnected = !!user.account;
-
+    const isWhitelistSale = (mintDetails.mintState === MintState.Whitelist);
     const mintButtonDisabled = mintDetails.mintState === MintState.NotStarted || (
-        mintDetails.mintState === MintState.Whitelist && mintDetails.whitelistSpots === 0
+        isWhitelistSale && mintDetails.whitelistSpots === 0
     );
+
+    const renderWhitelistSpots = () => {
+        if (hasWalletConnected && isWhitelistSale) {
+            const text = (mintDetails.whitelistSpots > 0)
+                ? `You have ${mintDetails.whitelistSpots} whitelist spots left.`
+                : `This wallet is not eligible for whitelist spot.`;
+            return (
+                <WhitelistSpots className="mb-8">{text}</WhitelistSpots>
+            )
+        }
+    }
 
     return (
         <Container className={containerClasses}>
@@ -92,7 +112,6 @@ const Mint: React.FC<MintProps> = ({
                     <Countdown to={mintDetails.mintWhitelistStartsAt} />
                 </CountdownContainer>
             )}
-
             {mintViewState === MintViewState.Now && (
                 <MintedAmount>
                     {mintDetails.mintedSupply} / {mintDetails.maxSupply}
@@ -107,6 +126,8 @@ const Mint: React.FC<MintProps> = ({
                     5,555 uniquely generated, cute and collectible meow with proof of ownership stored on the ETH blockchain.
                 </Paragraph>
             </div>
+
+            {renderWhitelistSpots()}
 
             <div className="text-center mb-9">
                 {hasWalletConnected ? (
