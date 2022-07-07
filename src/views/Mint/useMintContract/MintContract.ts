@@ -99,6 +99,15 @@ class MintContract extends EventEmitter {
         return res.toNumber();
     }
 
+    public async getWhitelistSpots(): Promise<number> {
+        if (!this.user.account) {
+            return 0;
+        }
+
+        const res = await this.contract.whiteListed(this.user.account.walletAddress) as BigNumber;
+        return res.toNumber();
+    }
+
     public async mint(amount: number): Promise<void> {
         if (!this.user.account) {
             throw new Error('Only connected account can mint');

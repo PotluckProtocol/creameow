@@ -16,6 +16,7 @@ export type MintDetails = {
     mintPublicStartsAt: Date;
     mintWhitelistStartsAt: Date;
     maxPerTx: number;
+    whitelistSpots: number;
     mintContract: MintContract;
 }
 
@@ -29,12 +30,13 @@ const useCreameowMintDetails = (): MintDetails | null => {
                 try {
                     console.log('Initializing mint details');
 
-                    const [maxSupply, mintState, mintedSupply, maxPerTx, mintPrice] = await Promise.all([
+                    const [maxSupply, mintState, mintedSupply, maxPerTx, mintPrice, whitelistSpots] = await Promise.all([
                         mintContract.getMaxSupply(),
                         mintContract.getMintState(),
                         mintContract.getMintedSupply(),
                         mintContract.getMaxPerTx(),
-                        mintContract.getMintPrice()
+                        mintContract.getMintPrice(),
+                        mintContract.getWhitelistSpots()
                     ]);
 
                     setMintDetails({
@@ -43,6 +45,7 @@ const useCreameowMintDetails = (): MintDetails | null => {
                         mintedSupply,
                         mintState,
                         maxPerTx,
+                        whitelistSpots,
                         mintPrice,
                         mintPublicStartsAt: new Date(PUBLIC_MINT_STARTS_AT),
                         mintWhitelistStartsAt: new Date(WHITELIST_MINT_STARTS_AT)
@@ -74,9 +77,7 @@ const useCreameowMintDetails = (): MintDetails | null => {
 
         init();
 
-        return () => {
-            mintContract?.clear();
-        }
+        return () => mintContract?.clear();
     }, [mintContract]);
 
     return mintDetails;

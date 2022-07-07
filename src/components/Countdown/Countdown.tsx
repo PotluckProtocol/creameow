@@ -30,8 +30,9 @@ const Countdown: React.FC<CountdownProps> = ({
 
     useEffect(() => {
         const refresh = () => {
-            const timeBetween = getTimeBetween(new Date(), to);
-            setTimeBetween(timeBetween);
+            setTimeBetween(
+                getTimeBetween(new Date(), to)
+            );
         }
 
         const handle = setInterval(() => {

@@ -6,7 +6,7 @@ import MintContract from "./MintContract";
 const MINT_STATE_REFRESH_INTERVAL_MS = 5000;
 const MINTED_SUPPLY_REFRESH_INTERVAL_MS = 5000;
 const FIXED_MAX_SUPPLY = undefined;
-const FIXED_MINT_PRICE = undefined;
+const FIXED_MINT_PRICE = BigNumber.from('30000000000000000');
 const FIXED_MAX_PER_TX = 5;
 
 const useMintContract = (contractAddress: string) => {
