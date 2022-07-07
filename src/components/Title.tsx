@@ -1,5 +1,6 @@
 export enum TitleType {
     MintingNow,
+    MintingSoon,
     Meowverse,
     FAQ
 }
@@ -11,6 +12,7 @@ export type TitleProps = {
 
 const TITLE_IMAGE_MAP: Record<TitleType, string> = {
     [TitleType.MintingNow]: '/images/titles/mintingnow.png',
+    [TitleType.MintingSoon]: '/images/titles/mintingsoon.png',
     [TitleType.Meowverse]: '/images/titles/meowverse.png',
     [TitleType.FAQ]: '/images/titles/faq.png'
 }

@@ -24,7 +24,7 @@ const Container = styled.div`
     border-radius: 1.5rem;
     border: 4px solid #392e2c;
     background-color: #FFFDF7;
-    top: 5rem;
+    top: 8rem;
     width: 452px;
     right: 50%;
     transform: translateX(50%);
