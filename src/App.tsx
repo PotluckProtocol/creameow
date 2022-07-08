@@ -40,13 +40,6 @@ const AppContainer = styled.div`
     margin: 0 auto;
 `;
 
-const DevVersion = styled.div`
-    font-family: Inter;
-    font-size: 32px;
-    font-weight: 600;
-    text-align: center;
-`;
-
 const ViewContent = styled.div``;
 
 const App = () => {
@@ -66,10 +59,6 @@ const App = () => {
                 />
 
                 <ViewContent>
-                    <DevVersion>
-                        This is a development version and is connected to Fantom Opera network. If you mint from this site you end up with a fanstastic revolutionary Ape!
-                    </DevVersion>
-
                     <Mint viewId={VIEW_ID_MINT} />
                     <About viewId={VIEW_ID_ABOUT} />
                     <Meowverse viewId={VIEW_ID_MEOWVERSE} />

@@ -39,7 +39,7 @@ const Artist: React.FC<ArtistProps> = ({
         <Container id={viewId} className={classes}>
             <Image src='/images/artist/huyenle.png' className="mx-auto mb-8" />
 
-            <div className="mb-24">
+            <div className="mb-12">
                 <TextContainer className="mx-auto mb-4">
                     <Paragraph>Heyun is Huyen Le, an artist from HCM city, Viet Nam who specializes in digital artwork in a variety of art styles. During the last 3 years she has found her best style - line 2d art, which enables her to freely express and deliver her art no matter what medium or content, be it horror or fantasy or any other genre.</Paragraph>
                     <Paragraph>She first knew about NFTs in August, 2021 when a friend introduced her to a public NFT discord server. By her self interest, she dug deeper into the NFT world and found that it's the perfect platform for her art to call home.</Paragraph>

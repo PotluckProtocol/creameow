@@ -63,6 +63,18 @@ const WhitelistSpots = styled.div`
     text-align: center;
 `;
 
+const DevVersion = styled.div`
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    color: red;
+`;
+
+const DevToggleButton = styled.button`
+    color: red;
+`;
+
 enum MintViewState { Now, Soon }
 
 const Mint: React.FC<MintProps> = ({
@@ -74,14 +86,16 @@ const Mint: React.FC<MintProps> = ({
     const user = useUser();
     const [selectedAmount, setSelectedAmount] = useState<number>(1);
     const [isMinting, setIsMinting] = useState(false);
+    const [forceMintingSoon, setForceMintingSoon] = useState(false);
 
     if (!mintContract || !mintDetails) {
         return <div>Loading...</div>
     }
 
-    const mintViewState: MintViewState = (mintDetails.mintState === MintState.NotStarted)
+    const mintViewState: MintViewState = (mintDetails.mintState === MintState.NotStarted) || forceMintingSoon
         ? MintViewState.Soon
         : MintViewState.Now;
+
     const hasWalletConnected = !!user.account;
     const isWhitelistSale = (mintDetails.mintState === MintState.Whitelist);
     const mintButtonDisabled = (
@@ -117,11 +131,18 @@ const Mint: React.FC<MintProps> = ({
     const containerClasses = classNames('mt-12', 'mx-auto', className, ...commonViewClasses);
     return (
         <Container className={containerClasses} id={viewId}>
+
+            <div className='text-center'>
+                <DevToggleButton onClick={() => setForceMintingSoon(!forceMintingSoon)}>
+                    Click me to toggle between <b>minting soon</b> / <b>minting now</b> views
+                </DevToggleButton>
+            </div>
+
             <Title type={mintViewState === MintViewState.Now ? TitleType.MintingNow : TitleType.MintingSoon} />
 
             {mintViewState === MintViewState.Soon && (
                 <CountdownContainer>
-                    <Countdown to={mintDetails.mintWhitelistStartsAt} />
+                    <Countdown to={mintDetails.mintPublicStartsAt} />
                 </CountdownContainer>
             )}
             {mintViewState === MintViewState.Now && (
@@ -140,24 +161,33 @@ const Mint: React.FC<MintProps> = ({
             </div>
 
             {renderWhitelistSpots()}
+            {mintViewState === MintViewState.Now && (
+                <>
+                    <div className="text-center mb-9">
+                        {hasWalletConnected ? (
+                            <>
+                                <DevVersion className='mt-8 mb-12'>
+                                    This is a development version and is connected to Fantom Opera network. If you mint from this site you end up with a fantastic Revolutionary Ape, cost is 25 FTM per piece!
+                                </DevVersion>
 
-            <div className="text-center mb-9">
-                {hasWalletConnected ? (
-                    <MintButton onClick={handleClickMintButton} disabled={mintButtonDisabled} className="mx-auto">
-                        {isMinting ? 'MINTING...' : 'MINT'}
-                    </MintButton>
-                ) : (
-                    <NotConnectedText>Connect your wallet to mint!</NotConnectedText>
-                )}
-            </div>
+                                <MintButton onClick={handleClickMintButton} disabled={mintButtonDisabled} className="mx-auto">
+                                    {isMinting ? 'MINTING...' : 'MINT'}
+                                </MintButton>
+                            </>
+                        ) : (
+                            <NotConnectedText>Connect your wallet to mint!</NotConnectedText>
+                        )}
+                    </div>
 
-            <AmountSelector
-                className="mx-auto mb-8"
-                min={1}
-                max={mintDetails.maxPerTx}
-                value={selectedAmount}
-                onChange={(value: number) => setSelectedAmount(value)}
-            />
+                    <AmountSelector
+                        className="mx-auto mb-8"
+                        min={1}
+                        max={mintDetails.maxPerTx}
+                        value={selectedAmount}
+                        onChange={(value: number) => setSelectedAmount(value)}
+                    />
+                </>
+            )}
 
             <MintPrice weiPrice={mintDetails.mintPrice} amount={selectedAmount} />
         </Container>

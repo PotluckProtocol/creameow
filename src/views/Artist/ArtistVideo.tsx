@@ -12,11 +12,9 @@ const Container = styled.div`
     padding: 2rem;
 `;
 
-const InternalContainer = styled.div`
-    border: 3px solid #000;
+const Video = styled.video`
     border-radius: 2rem;
-    height: 400px;
-    background-color: white;
+    border: 3px solid #000;
 `;
 
 const ArtistVideo: React.FC<ArtistVideoProps> = ({
@@ -24,9 +22,9 @@ const ArtistVideo: React.FC<ArtistVideoProps> = ({
 }) => {
     return (
         <Container className={className}>
-            <InternalContainer>
-
-            </InternalContainer>
+            <Video className="w-full" controls autoPlay={false} loop={false}>
+                <source src="/videos/intro.mov" type="video/mp4" />
+            </Video>
         </Container>
     );
 }
