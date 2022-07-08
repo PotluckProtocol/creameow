@@ -1,8 +1,16 @@
+import classNames from "classnames";
 import Ball from "../../components/Ball";
 
-const Balls: React.FC = () => {
+export type BallsProps = {
+    className?: string;
+}
+
+const Balls: React.FC<BallsProps> = ({
+    className
+}) => {
+    const classes = classNames(className, 'flex', 'items-center', 'justify-center')
     return (
-        <div>
+        <div className={classes}>
             <Ball className="mx-2" color="#FFC4D6" size={15} />
             <Ball className="mx-2" color="#FFC4D6" size={15} />
             <Ball className="mx-2" color="#FFC4D6" size={15} />

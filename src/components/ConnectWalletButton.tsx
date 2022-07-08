@@ -5,6 +5,7 @@ import { ChooseWalletModal } from "./ChooseWalletModal";
 
 export type ConnectWalletButtonProps = {
     className?: string;
+    fontSize?: number;
 }
 
 const toShortWallet = (walletAddr: string): string => {
@@ -15,7 +16,8 @@ const toShortWallet = (walletAddr: string): string => {
 }
 
 export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
-    className
+    className,
+    fontSize
 }) => {
     const accountContext = useContext(AccountContext);
     const [showChooseWalletModal, setShowChooseWalletModal] = useState(false);
@@ -42,7 +44,7 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
 
     return (
         <>
-            <Button color='light' fontSize={24} className={className} onClick={handleButtonClick}>
+            <Button color='light' fontSize={fontSize || 24} className={className} onClick={handleButtonClick}>
                 {connectButtonText}
             </Button>
 

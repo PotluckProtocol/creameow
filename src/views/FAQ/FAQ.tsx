@@ -1,7 +1,9 @@
+import classNames from "classnames";
 import { useState } from "react";
 import styled from "styled-components";
 import Collapse from "../../components/Collapse/Collapse";
 import Title, { TitleType } from "../../components/Title";
+import commonViewClasses from "../commonViewClasses";
 import { FAQItems } from "./FAQItems";
 
 export type FAQProps = {
@@ -41,8 +43,10 @@ const FAQ: React.FC<FAQProps> = ({
         }
     }
 
+    const classes = classNames(className, ...commonViewClasses);
+
     return (
-        <Container className={className} id={viewId}>
+        <Container className={classes} id={viewId}>
             <Title type={TitleType.FAQ} className="text-center mb-4" />
             {FAQItems.map((item) => (
                 <Collapse

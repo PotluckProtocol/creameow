@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useUser from "../../../user/useUser";
 import MintContract from "./MintContract";
 
+const MINT_GAS_LIMIT = 285000;
 const MINT_STATE_REFRESH_INTERVAL_MS = 5000;
 const MINTED_SUPPLY_REFRESH_INTERVAL_MS = 5000;
 const FIXED_MAX_SUPPLY = 5555;
@@ -18,12 +19,16 @@ const useMintContract = (contractAddress: string) => {
         const init = async () => {
             console.log('Init minting contract');
             const mintContract = new MintContract(contractAddress, user, {
+                mintGasLimit: MINT_GAS_LIMIT,
                 fixedMaxSupply: FIXED_MAX_SUPPLY,
                 fixedMaxPerTx: FIXED_MAX_PER_TX,
                 fixedMintPrice: FIXED_MINT_PRICE,
                 mintStateRefreshIntervalMs: MINT_STATE_REFRESH_INTERVAL_MS,
                 mintSupplyRefreshIntervalMs: MINTED_SUPPLY_REFRESH_INTERVAL_MS
             });
+
+            console.log('new minting contract', mintContract);
+
             setMintContract(mintContract);
         }
 

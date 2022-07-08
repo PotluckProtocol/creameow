@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import styled from 'styled-components';
 import TopMenu, { NavigationLink } from './components/TopMenu';
-
 import About from './views/About';
 import Meowverse from './views/Meowverse';
 import Artist from './views/Artist';
@@ -40,6 +40,15 @@ const AppContainer = styled.div`
     margin: 0 auto;
 `;
 
+const DevVersion = styled.div`
+    font-family: Inter;
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+`;
+
+const ViewContent = styled.div``;
+
 const App = () => {
 
     // Wait for accountContext to be initialized before proceeding
@@ -56,12 +65,18 @@ const App = () => {
                     navigationLinks={NAVIGATION_LINKS}
                 />
 
-                <Mint viewId={VIEW_ID_MINT} />
-                <About viewId={VIEW_ID_ABOUT} />
-                <Meowverse viewId={VIEW_ID_MEOWVERSE} />
-                <Artist viewId={VIEW_ID_ARTIST} />
-                <FAQ viewId={VIEW_ID_FAQ} />
-                <Footer />
+                <ViewContent>
+                    <DevVersion>
+                        This is a development version and is connected to Fantom Opera network. If you mint from this site you end up with a fanstastic revolutionary Ape!
+                    </DevVersion>
+
+                    <Mint viewId={VIEW_ID_MINT} />
+                    <About viewId={VIEW_ID_ABOUT} />
+                    <Meowverse viewId={VIEW_ID_MEOWVERSE} />
+                    <Artist viewId={VIEW_ID_ARTIST} />
+                    <FAQ viewId={VIEW_ID_FAQ} />
+                    <Footer />
+                </ViewContent>
 
             </AppContainer>
             <ToastContainer />

@@ -1,4 +1,6 @@
+import classNames from "classnames";
 import styled from "styled-components"
+import commonViewClasses from "../commonViewClasses";
 
 export type AboutProps = {
     className?: string;
@@ -31,8 +33,9 @@ const About: React.FC<AboutProps> = ({
     className,
     viewId
 }) => {
+    const classes = classNames(className, ...commonViewClasses);
     return (
-        <Container className={className} id={viewId}>
+        <Container className={classes} id={viewId}>
             <Image src='/images/about/creameow.png' className="mx-auto mb-4" />
 
             <TextContainer className="mx-auto">

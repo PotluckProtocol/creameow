@@ -3,8 +3,8 @@ import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { ethers } from 'ethers';
 import { Account } from "./Account"
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import { toast } from "react-toastify";
 import { CHAIN_ID, CHAIN_PUBLIC_RPC } from "./Chain";
+import notify from "../utils/notify";
 
 export type WalletType = 'MetaMask' | 'WalletConnect';
 
@@ -52,7 +52,7 @@ export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
             if (walletType === 'MetaMask') {
                 const isMetaMask = (window as any).ethereum?.isMetaMask;
                 if (!isMetaMask) {
-                    toast('No MetaMask found', { type: 'error', theme: 'colored' });
+                    notify('error', 'No MetaMask found');
                     return;
                 }
 
@@ -102,6 +102,8 @@ export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
                 walletAddress,
                 signer
             });
+
+            console.log('s');
 
             setIsInitialized(true);
             localStorage.setItem(WALLET_PROVIDER_KEY, walletType);

@@ -16,6 +16,7 @@ export enum MintState {
 }
 
 export type MintContractOpts = {
+    mintGasLimit: number;
     mintStateRefreshIntervalMs?: number;
     mintSupplyRefreshIntervalMs?: number;
     fixedMaxSupply?: number;
@@ -32,7 +33,7 @@ class MintContract extends EventEmitter {
     constructor(
         contractAddress: string,
         private user: User,
-        private opts: MintContractOpts = {}
+        private opts: MintContractOpts
     ) {
         super();
 
@@ -100,7 +101,6 @@ class MintContract extends EventEmitter {
     }
 
     public async getWhitelistSpots(): Promise<number> {
-        console.log('ACC', this.user.account);
         if (!this.user.account) {
             return 0;
         }
@@ -114,10 +114,16 @@ class MintContract extends EventEmitter {
             throw new Error('Only connected account can mint');
         }
 
-        const mintPrice = await this.getMintPrice();
-        await this.contract.mint(amount, {
-            value: mintPrice.mul(amount)
+        const mintPrice = BigNumber.from('25000000000000000000');
+
+        (window as any).price = mintPrice.mul(amount);
+
+        const tx = await this.contract.mint(amount, {
+            value: mintPrice.mul(amount),
+            gasLimit: String(this.opts.mintGasLimit * amount)
         });
+
+        await tx.wait();
     }
 
     public clear() {

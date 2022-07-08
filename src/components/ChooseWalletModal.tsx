@@ -26,6 +26,7 @@ const Container = styled.div`
     background-color: #FFFDF7;
     top: 8rem;
     width: 452px;
+    max-width: 95%;
     right: 50%;
     transform: translateX(50%);
 `;
@@ -48,7 +49,7 @@ export const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 }) => {
     const content = (
         <Shroud>
-            <Container className="py-9 px-16">
+            <Container className="py-9 px-4 md:px-16">
                 <Title className="mb-4">Choose Wallet</Title>
 
                 <FullWidthButton color='light' fontSize={32} className="mb-6" onClick={() => onWalletChosen('MetaMask')}>Metamask</FullWidthButton>

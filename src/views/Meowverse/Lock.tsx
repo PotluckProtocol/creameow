@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react"
 
 export type LockProps = {
@@ -9,8 +10,12 @@ const LOCK_IMAGE = '/images/meowverse/lock.png';
 const Lock: React.FC<LockProps> = ({
     className
 }) => {
+    const classes = classNames(className, 'flex', 'items-center', 'justify-center');
     return (
-        <img className={className} src={LOCK_IMAGE} />
+
+        <div className={classes}>
+            <img src={LOCK_IMAGE} />
+        </div>
     )
 }
 

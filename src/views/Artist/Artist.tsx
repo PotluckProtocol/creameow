@@ -1,4 +1,6 @@
+import classNames from "classnames";
 import styled from "styled-components"
+import commonViewClasses from "../commonViewClasses";
 import ArtistVideo from "./ArtistVideo";
 
 export type ArtistProps = {
@@ -32,8 +34,9 @@ const Artist: React.FC<ArtistProps> = ({
     className,
     viewId
 }) => {
+    const classes = classNames(className, ...commonViewClasses);
     return (
-        <Container id={viewId} className={className}>
+        <Container id={viewId} className={classes}>
             <Image src='/images/artist/huyenle.png' className="mx-auto mb-8" />
 
             <div className="mb-24">

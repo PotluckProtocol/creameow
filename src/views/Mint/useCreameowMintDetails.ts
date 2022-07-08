@@ -6,7 +6,6 @@ import { BigNumber } from "ethers";
 
 const PUBLIC_MINT_STARTS_AT: string = '2022-07-16T20:00:00Z';
 const WHITELIST_MINT_STARTS_AT: string = '2022-07-15T20:00:00Z';
-const MINT_CONTRACT_ADDRESS = '0xE3763f557933B3396795ad3920Dd7D191359CcEF'; // ROBOTO FTM!!
 
 export type MintDetails = {
     maxSupply: number;
@@ -17,11 +16,9 @@ export type MintDetails = {
     mintWhitelistStartsAt: Date;
     maxPerTx: number;
     whitelistSpots: number;
-    mintContract: MintContract;
 }
 
-const useCreameowMintDetails = (): MintDetails | null => {
-    const mintContract = useMintContract(MINT_CONTRACT_ADDRESS);
+const useCreameowMintDetails = (mintContract: MintContract | null): MintDetails | null => {
     const [mintDetails, setMintDetails] = useState<MintDetails | null>(null);
 
     const mintedSupplyCallback = (mintedSupply: number) => {
@@ -51,7 +48,7 @@ const useCreameowMintDetails = (): MintDetails | null => {
         const init = async () => {
             if (mintContract) {
                 try {
-                    console.log('Initializing mint details');
+                    console.log('Initializing mint details', mintContract);
 
                     const [maxSupply, mintState, mintedSupply, maxPerTx, mintPrice, whitelistSpots] = await Promise.all([
                         mintContract.getMaxSupply(),
@@ -64,7 +61,6 @@ const useCreameowMintDetails = (): MintDetails | null => {
 
                     setMintDetails({
                         maxSupply,
-                        mintContract,
                         mintedSupply,
                         mintState,
                         maxPerTx,

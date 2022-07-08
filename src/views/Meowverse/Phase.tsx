@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import styled from 'styled-components';
 
 export type PhaseProps = {
@@ -10,7 +11,6 @@ const PhaseTitle = styled.div`
     font-family: Inter;
     font-size: 32px;
     font-weight: 700;
-    text-align: left;
     color: #FFC4D6;
 `;
 
@@ -18,7 +18,6 @@ const PhaseDescription = styled.div`
     font-family: Inter;
     font-weight: 600;
     font-size: 22px;
-    text-align: left;
 `;
 
 const Phase: React.FC<PhaseProps> = ({
@@ -26,12 +25,15 @@ const Phase: React.FC<PhaseProps> = ({
     description,
     title
 }) => {
+    const classes = classNames(className, 'flex', 'items-center', 'justify-center');
     return (
-        <div className={className}>
-            <PhaseTitle>{title}</PhaseTitle>
-            <PhaseDescription>
-                {description}
-            </PhaseDescription>
+        <div className={classes}>
+            <div>
+                <PhaseTitle>{title}</PhaseTitle>
+                <PhaseDescription>
+                    {description}
+                </PhaseDescription>
+            </div>
         </div>
     );
 }

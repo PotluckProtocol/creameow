@@ -1,17 +1,19 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 import AmountSelector from "../../components/AmountSelector";
 import Countdown from "../../components/Countdown/Countdown";
-import ProgressBar from "../../components/ProgressBar";
 import Title, { TitleType } from "../../components/Title";
-import { useTokenPriceInUSD } from "../../hooks/useTokenPriceInUSD";
 import useUser from "../../user/useUser";
+import notify from "../../utils/notify";
+import commonViewClasses from "../commonViewClasses";
 import MintButton from "./MintButton";
 import MintPrice from "./MintPrice";
 import useCreameowMintDetails from "./useCreameowMintDetails";
+import useMintContract from "./useMintContract";
 import { MintState } from "./useMintContract/MintContract";
+
+const MINT_CONTRACT_ADDRESS = '0xE3763f557933B3396795ad3920Dd7D191359CcEF'; // ROBOTO FTM!!
 
 export type MintProps = {
     viewId: string;
@@ -20,11 +22,6 @@ export type MintProps = {
 
 const Container = styled.div`
     max-width: 520px;
-`;
-
-const ProgressBarContainer = styled.div`
-    max-width: 420px;
-    margin: 0 auto;
 `;
 
 const CountdownContainer = styled.div`
@@ -66,30 +63,25 @@ const WhitelistSpots = styled.div`
     text-align: center;
 `;
 
-enum MintViewState {
-    Now,
-    Soon
-}
+enum MintViewState { Now, Soon }
 
 const Mint: React.FC<MintProps> = ({
     className,
     viewId
 }) => {
-    const mintDetails = useCreameowMintDetails();
+    const mintContract = useMintContract(MINT_CONTRACT_ADDRESS);
+    const mintDetails = useCreameowMintDetails(mintContract);
     const user = useUser();
     const [selectedAmount, setSelectedAmount] = useState<number>(1);
     const [isMinting, setIsMinting] = useState(false);
 
-    if (!mintDetails) {
+    if (!mintContract || !mintDetails) {
         return <div>Loading...</div>
     }
-
-    console.log('Mint details', mintDetails);
 
     const mintViewState: MintViewState = (mintDetails.mintState === MintState.NotStarted)
         ? MintViewState.Soon
         : MintViewState.Now;
-    const containerClasses = classNames('mt-12', 'mx-auto', className);
     const hasWalletConnected = !!user.account;
     const isWhitelistSale = (mintDetails.mintState === MintState.Whitelist);
     const mintButtonDisabled = (
@@ -101,15 +93,15 @@ const Mint: React.FC<MintProps> = ({
     const handleClickMintButton = async () => {
         setIsMinting(true);
         try {
-            await mintDetails.mintContract.mint(selectedAmount);
-            toast('Mint successful', { theme: 'colored', type: 'success' });
+            await mintContract.mint(selectedAmount);
+            notify('success', 'Mint successful');
         } catch (e) {
             console.log(`Error on minting`, e);
-            toast('Minting failed, please try again', { theme: 'colored', type: 'error' });
+            notify('error', 'Minting failed, please try again');
         } finally {
             setIsMinting(false);
         }
-    }
+    };
 
     const renderWhitelistSpots = () => {
         if (hasWalletConnected && isWhitelistSale) {
@@ -122,6 +114,7 @@ const Mint: React.FC<MintProps> = ({
         }
     }
 
+    const containerClasses = classNames('mt-12', 'mx-auto', className, ...commonViewClasses);
     return (
         <Container className={containerClasses} id={viewId}>
             <Title type={mintViewState === MintViewState.Now ? TitleType.MintingNow : TitleType.MintingSoon} />

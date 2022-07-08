@@ -1,6 +1,8 @@
+import classNames from "classnames";
 import React from "react";
 import styled from "styled-components";
 import SocialIcon, { SocialIconType } from "../../components/SocialIcon";
+import commonViewClasses from "../commonViewClasses";
 
 export type FooterProps = {
     className?: string;
@@ -19,8 +21,9 @@ const Image = styled.img``;
 const Footer: React.FC<FooterProps> = ({
     className
 }) => {
+    const classes = classNames(className, ...commonViewClasses);
     return (
-        <Container className={className}>
+        <Container className={classes}>
             <Image src='/images/footer/icecreamcat.png' className="mx-auto" />
 
             <div className="text-center mt-8">
