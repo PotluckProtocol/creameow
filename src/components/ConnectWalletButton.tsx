@@ -46,7 +46,12 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
                 {connectButtonText}
             </Button>
 
-            {showChooseWalletModal && (<ChooseWalletModal onClose={() => setShowChooseWalletModal(false)} onWalletChosen={handleWalletTypeChosen} />)}
+            {showChooseWalletModal && (
+                <ChooseWalletModal
+                    onClose={() => setShowChooseWalletModal(false)}
+                    onWalletChosen={handleWalletTypeChosen}
+                />
+            )}
         </>
     )
 }

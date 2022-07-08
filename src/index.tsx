@@ -8,6 +8,7 @@ import { AccountProvider } from './user/AccountContext';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <AccountProvider>

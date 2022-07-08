@@ -16,7 +16,7 @@ const Shroud = styled.div`
     left: 0;
     height: 100vh;
     z-index: 8999;
-    background-color: rgba(0,0,0,0.79);
+    background-color: rgba(0,0,0,0.21);
 `;
 
 const Container = styled.div`
@@ -46,7 +46,6 @@ export const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
     onWalletChosen,
     onClose
 }) => {
-
     const content = (
         <Shroud>
             <Container className="py-9 px-16">
@@ -60,7 +59,7 @@ export const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
                 </div>
             </Container>
         </Shroud>
-    )
+    );
 
     return createPortal(content, document.body);
 

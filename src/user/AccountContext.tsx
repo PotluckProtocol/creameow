@@ -22,25 +22,29 @@ const WALLET_PROVIDER_KEY = 'walletProvider';
 export const AccountContext = createContext<AccountContextType>(null as any);
 
 export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-
     const [account, setAccount] = useState<Account | null>(null);
     const [connecting, setConnecting] = useState<boolean>(false);
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
     useEffect(() => {
+        console.log('WE SHOULD BE HERE ONCE')
+
         const connectWallet = async () => {
             const walletProvider: WalletType = localStorage?.getItem(WALLET_PROVIDER_KEY) as WalletType;
             if (walletProvider) {
                 await connect(walletProvider);
             }
-
-            setIsInitialized(true);
         }
 
         connectWallet();
     }, []);
 
     const connect = async (walletType: WalletType) => {
+
+        if (connecting) {
+            return;
+        }
+
         setConnecting(true);
         try {
 
@@ -99,6 +103,7 @@ export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
                 signer
             });
 
+            setIsInitialized(true);
             localStorage.setItem(WALLET_PROVIDER_KEY, walletType);
         } finally {
             setConnecting(false);

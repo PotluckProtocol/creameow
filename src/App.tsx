@@ -42,10 +42,10 @@ const AppContainer = styled.div`
 
 const App = () => {
 
-    const account = useContext(AccountContext);
-
-    if (!account.isInitialized) {
-        return null;
+    // Wait for accountContext to be initialized before proceeding
+    const accountContext = useContext(AccountContext);
+    if (!accountContext) {
+        return <div>Loading...</div>
     }
 
     return (
