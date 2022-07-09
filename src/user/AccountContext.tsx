@@ -5,6 +5,7 @@ import { Account } from "./Account"
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { CHAIN_ID, CHAIN_PUBLIC_RPC } from "./Chain";
 import notify from "../utils/notify";
+import { isMinterApp } from "../utils/getAppType";
 
 export type WalletType = 'MetaMask' | 'WalletConnect';
 
@@ -27,7 +28,10 @@ export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log('WE SHOULD BE HERE ONCE')
+
+        if (!isMinterApp()) {
+            return;
+        }
 
         const connectWallet = async () => {
             const walletProvider: WalletType = localStorage?.getItem(WALLET_PROVIDER_KEY) as WalletType;

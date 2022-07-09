@@ -5,6 +5,7 @@ import AmountSelector from "../../components/AmountSelector";
 import Countdown from "../../components/Countdown/Countdown";
 import Title, { TitleType } from "../../components/Title";
 import useUser from "../../user/useUser";
+import { isMinterApp } from "../../utils/getAppType";
 import notify from "../../utils/notify";
 import commonViewClasses from "../commonViewClasses";
 import MintButton from "./MintButton";
@@ -12,6 +13,7 @@ import MintPrice from "./MintPrice";
 import useCreameowMintDetails from "./useCreameowMintDetails";
 import useMintContract from "./useMintContract";
 import { MintState } from "./useMintContract/MintContract";
+import moment from 'moment';
 
 const MINT_CONTRACT_ADDRESS = '0xE3763f557933B3396795ad3920Dd7D191359CcEF'; // ROBOTO FTM!!
 
@@ -20,13 +22,13 @@ export type MintProps = {
     className?: string;
 }
 
-const Container = styled.div`
+const Container = styled.div``;
+
+const MintContainer = styled.div`
     max-width: 520px;
 `;
 
-const CountdownContainer = styled.div`
-    margin: 0 auto;
-`;
+const CountdownContainer = styled.div``;
 
 const Paragraph = styled.p`
     text-align: center;
@@ -36,9 +38,7 @@ const Paragraph = styled.p`
     padding: 0;
 `;
 
-const Image = styled.img`
-
-`;
+const Image = styled.img``;
 
 const NotConnectedText = styled.p`
     text-align: center;
@@ -55,6 +55,7 @@ const MintedAmount = styled.div`
     text-align: center;
 `;
 
+/*
 const WhitelistSpots = styled.div`
     text-align: center;
     font-family: Inter;
@@ -62,20 +63,24 @@ const WhitelistSpots = styled.div`
     font-weight: 700;
     text-align: center;
 `;
+*/
 
-const DevVersion = styled.div`
+const EarlyAccessContainer = styled.div`
+    max-width: 730px;
+`;
+
+const EarlyAccessTime = styled.h3`
+    color: #F9749E;
     font-family: Inter;
+    font-weight: bold;
+    font-size: 44px;
+    text-align: center;
+`;
+
+const BoldParagraph = styled(Paragraph)`
     font-size: 22px;
     font-weight: 600;
-    text-align: center;
-    color: red;
 `;
-
-const DevToggleButton = styled.button`
-    color: red;
-`;
-
-enum MintViewState { Now, Soon }
 
 const Mint: React.FC<MintProps> = ({
     className,
@@ -86,22 +91,17 @@ const Mint: React.FC<MintProps> = ({
     const user = useUser();
     const [selectedAmount, setSelectedAmount] = useState<number>(1);
     const [isMinting, setIsMinting] = useState(false);
-    const [forceMintingSoon, setForceMintingSoon] = useState(false);
 
     if (!mintContract || !mintDetails) {
         return <div>Loading...</div>
     }
 
-    const mintViewState: MintViewState = (mintDetails.mintState === MintState.NotStarted) || forceMintingSoon
-        ? MintViewState.Soon
-        : MintViewState.Now;
-
     const hasWalletConnected = !!user.account;
-    const isWhitelistSale = (mintDetails.mintState === MintState.Whitelist);
+    //const isWhitelistSale = (mintDetails.mintState === MintState.Whitelist);
     const mintButtonDisabled = (
         isMinting ||
-        mintDetails.mintState === MintState.NotStarted ||
-        (isWhitelistSale && mintDetails.whitelistSpots === 0)
+        mintDetails.mintState === MintState.NotStarted
+        // (isWhitelistSale && mintDetails.whitelistSpots === 0)
     );
 
     const handleClickMintButton = async () => {
@@ -117,6 +117,7 @@ const Mint: React.FC<MintProps> = ({
         }
     };
 
+    /*
     const renderWhitelistSpots = () => {
         if (hasWalletConnected && isWhitelistSale) {
             const text = (mintDetails.whitelistSpots > 0)
@@ -127,69 +128,73 @@ const Mint: React.FC<MintProps> = ({
             )
         }
     }
+    */
 
     const containerClasses = classNames('mt-12', 'mx-auto', className, ...commonViewClasses);
     return (
         <Container className={containerClasses} id={viewId}>
+            <MintContainer className='mx-auto'>
+                <Title type={isMinterApp() ? TitleType.MintingNow : TitleType.MintingSoon} />
 
-            <div className='text-center'>
-                <DevToggleButton onClick={() => setForceMintingSoon(!forceMintingSoon)}>
-                    Click me to toggle between <b>minting soon</b> / <b>minting now</b> views
-                </DevToggleButton>
-            </div>
+                {isMinterApp() && (
+                    <MintedAmount>
+                        {mintDetails.mintedSupply} / {mintDetails.maxSupply}
+                    </MintedAmount>
+                )}
 
-            <Title type={mintViewState === MintViewState.Now ? TitleType.MintingNow : TitleType.MintingSoon} />
+                {!isMinterApp() && (
+                    <>
+                        <BoldParagraph>Public mint on {moment(mintDetails.mintPublicStartsAt).utc().format('MMMM Do h a [UTC]')}</BoldParagraph>
+                        <CountdownContainer className="mt-4 mx-auto">
+                            <Countdown to={mintDetails.mintPublicStartsAt} />
+                        </CountdownContainer>
+                    </>
+                )}
 
-            {mintViewState === MintViewState.Soon && (
-                <CountdownContainer>
-                    <Countdown to={mintDetails.mintPublicStartsAt} />
-                </CountdownContainer>
-            )}
-            {mintViewState === MintViewState.Now && (
-                <MintedAmount>
-                    {mintDetails.mintedSupply} / {mintDetails.maxSupply}
-                </MintedAmount>
-            )}
+                <Image className="mx-auto mb-3" src='/images/mint/meow.png' />
 
-            <Image className="mx-auto mb-3" src='/images/mint/meow.png' />
+                <div className="mb-9">
+                    <Paragraph>
+                        Adopt yourself a Creameow<br />
+                        5,555 uniquely generated, cute and collectible meow with proof of ownership stored on the ETH blockchain.
+                    </Paragraph>
+                </div>
 
-            <div className="mb-9">
-                <Paragraph>
-                    Adopt yourself a Creameow<br />
-                    5,555 uniquely generated, cute and collectible meow with proof of ownership stored on the ETH blockchain.
-                </Paragraph>
-            </div>
-
-            {renderWhitelistSpots()}
-            {mintViewState === MintViewState.Now && (
-                <>
-                    <div className="text-center mb-9">
-                        {hasWalletConnected ? (
-                            <>
-                                <DevVersion className='mt-8 mb-12'>
-                                    This is a development version and is connected to Fantom Opera network. If you mint from this site you end up with a fantastic Revolutionary Ape, cost is 25 FTM per piece!
-                                </DevVersion>
-
+                {/* renderWhitelistSpots()*/}
+                {isMinterApp() && (
+                    <>
+                        <div className="text-center mb-9">
+                            {hasWalletConnected ? (
                                 <MintButton onClick={handleClickMintButton} disabled={mintButtonDisabled} className="mx-auto">
                                     {isMinting ? 'MINTING...' : 'MINT'}
                                 </MintButton>
-                            </>
-                        ) : (
-                            <NotConnectedText>Connect your wallet to mint!</NotConnectedText>
-                        )}
-                    </div>
+                            ) : (
+                                <NotConnectedText>Connect your wallet to mint!</NotConnectedText>
+                            )}
+                        </div>
 
-                    <AmountSelector
-                        className="mx-auto mb-8"
-                        min={1}
-                        max={mintDetails.maxPerTx}
-                        value={selectedAmount}
-                        onChange={(value: number) => setSelectedAmount(value)}
-                    />
-                </>
+                        <AmountSelector
+                            className="mx-auto mb-8"
+                            min={1}
+                            max={mintDetails.maxPerTx}
+                            value={selectedAmount}
+                            onChange={(value: number) => setSelectedAmount(value)}
+                        />
+                    </>
+                )}
+
+                <MintPrice weiPrice={mintDetails.mintPrice} amount={selectedAmount} />
+            </MintContainer>
+            {!isMinterApp() && (
+                <EarlyAccessContainer className='mx-auto mt-8'>
+                    <Title type={TitleType.EarlyAccess} className='mb-2' />
+                    <EarlyAccessTime className='mb-2'>• {moment(mintDetails.mintWhitelistStartsAt).utc().format('MMMM Do h a [UTC]')} •</EarlyAccessTime>
+                    <BoldParagraph >To get your Creameow Access Pass: Join our discord for more info!</BoldParagraph>
+                    <Image className="mx-auto mt-4" src='/images/mint/tickets.png' />
+                </EarlyAccessContainer>
             )}
 
-            <MintPrice weiPrice={mintDetails.mintPrice} amount={selectedAmount} />
+
         </Container>
     )
 }

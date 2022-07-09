@@ -1,6 +1,5 @@
 import MintContract from "./useMintContract/MintContract";
-import { useCallback, useEffect, useRef, useState } from "react";
-import useMintContract from "./useMintContract";
+import { useEffect, useRef, useState } from "react";
 import { MintContractEvents, MintState } from "./useMintContract/MintContract";
 import { BigNumber } from "ethers";
 
@@ -15,7 +14,7 @@ export type MintDetails = {
     mintPublicStartsAt: Date;
     mintWhitelistStartsAt: Date;
     maxPerTx: number;
-    whitelistSpots: number;
+    // whitelistSpots: number;
 }
 
 const useCreameowMintDetails = (mintContract: MintContract | null): MintDetails | null => {
@@ -50,13 +49,13 @@ const useCreameowMintDetails = (mintContract: MintContract | null): MintDetails 
                 try {
                     console.log('Initializing mint details', mintContract);
 
-                    const [maxSupply, mintState, mintedSupply, maxPerTx, mintPrice, whitelistSpots] = await Promise.all([
+                    const [maxSupply, mintState, mintedSupply, maxPerTx, mintPrice] = await Promise.all([
                         mintContract.getMaxSupply(),
                         mintContract.getMintState(),
                         mintContract.getMintedSupply(),
                         mintContract.getMaxPerTx(),
                         mintContract.getMintPrice(),
-                        mintContract.getWhitelistSpots()
+                        // mintContract.getWhitelistSpots()
                     ]);
 
                     setMintDetails({
@@ -64,7 +63,7 @@ const useCreameowMintDetails = (mintContract: MintContract | null): MintDetails 
                         mintedSupply,
                         mintState,
                         maxPerTx,
-                        whitelistSpots,
+                        // whitelistSpots,
                         mintPrice,
                         mintPublicStartsAt: new Date(PUBLIC_MINT_STARTS_AT),
                         mintWhitelistStartsAt: new Date(WHITELIST_MINT_STARTS_AT)

@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import styled from 'styled-components';
-import useScreenSize from '../hooks/useScreenSize';
+import getAppType, { AppType, isMinterApp } from '../utils/getAppType';
 import scrollTo from '../utils/scrollTo';
 import { ConnectWalletButton } from './ConnectWalletButton';
+
+const APP_TYPE = getAppType();
 
 export type NavigationLink = {
     text: string;
@@ -121,7 +123,9 @@ const TopMenu: React.FC<TopMenuProps> = ({
                         </Link>
                     ))}
 
-                    <ConnectWalletButton className='ml-12' />
+                    {isMinterApp() && (
+                        <ConnectWalletButton className='ml-12' />
+                    )}
                 </div>
                 <div className='block md:hidden'>
                     <button onClick={() => setIsMenuOpen(true)}>
@@ -129,9 +133,11 @@ const TopMenu: React.FC<TopMenuProps> = ({
                     </button>
 
                     <MenuContainer className={menuContainerClasses}>
-                        <div className='text-center my-8'>
-                            <ConnectWalletButton fontSize={20} />
-                        </div>
+                        {isMinterApp() && (
+                            <div className='text-center my-8'>
+                                <ConnectWalletButton fontSize={20} />
+                            </div>
+                        )}
                         {navigationLinks.map((link, index) => (
                             <Link className='block text-center w-full m-0 p-2' key={`menu-${index}`} onClick={createMenuLinkClickHandler(link.navTo)}>
                                 {link.text}

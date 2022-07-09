@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { ComponentPropsWithRef, useEffect, useState } from "react";
 import styled from "styled-components";
+import useScreenSize from "../../hooks/useScreenSize";
 import Blocks from "./Blocks";
 import getTimeBetween, { TimeBetween } from "./getTimeBetween";
 
@@ -11,11 +12,15 @@ const Container = styled.div`
 
 `;
 
-const Separator = styled.div`
+type SeparatorProps = ComponentPropsWithRef<'div'> & {
+    isSmallScreen: boolean;
+}
+
+const Separator = styled.div<SeparatorProps>`
     font-family: Inter;
     font-weight: 600;
-    font-size: 44px; 
-    line-height: 44px;
+    font-size: ${props => props.isSmallScreen ? 26 : 44}px; 
+    line-height: ${props => props.isSmallScreen ? 26 : 44}px; 
     display: flex;
     padding-top: .5rem;
     margin: 0 .5rem;
@@ -26,6 +31,8 @@ const Separator = styled.div`
 const Countdown: React.FC<CountdownProps> = ({
     to
 }) => {
+    const screenSize = useScreenSize();
+    const isSmallScreen = ['xs', 'sm'].includes(screenSize);
     const [timeBetween, setTimeBetween] = useState<TimeBetween | null>(null);
 
     useEffect(() => {
@@ -52,13 +59,13 @@ const Countdown: React.FC<CountdownProps> = ({
 
     return (
         <Container className="flex justify-center">
-            <Blocks num={days} label='DAY' />
-            <Separator>:</Separator>
-            <Blocks num={hours} label='HOUR' />
-            <Separator>:</Separator>
-            <Blocks num={minutes} label='MIN' />
-            <Separator>:</Separator>
-            <Blocks num={seconds} label='SEC' />
+            <Blocks isSmallScreen={isSmallScreen} num={days} label='DAY' />
+            <Separator isSmallScreen={isSmallScreen}>:</Separator>
+            <Blocks isSmallScreen={isSmallScreen} num={hours} label='HOUR' />
+            <Separator isSmallScreen={isSmallScreen}>:</Separator>
+            <Blocks isSmallScreen={isSmallScreen} num={minutes} label='MIN' />
+            <Separator isSmallScreen={isSmallScreen}>:</Separator>
+            <Blocks isSmallScreen={isSmallScreen} num={seconds} label='SEC' />
         </Container >
     );
 }
