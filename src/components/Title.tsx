@@ -1,5 +1,6 @@
 export enum TitleType {
     EarlyAccess,
+    Creameows,
     MintingNow,
     MintingSoon,
     Meowverse,
@@ -13,6 +14,7 @@ export type TitleProps = {
 
 const TITLE_IMAGE_MAP: Record<TitleType, string> = {
     [TitleType.EarlyAccess]: '/images/titles/earlyaccess.png',
+    [TitleType.Creameows]: '/images/titles/creameows.png',
     [TitleType.MintingNow]: '/images/titles/mintingnow.png',
     [TitleType.MintingSoon]: '/images/titles/mintingsoon.png',
     [TitleType.Meowverse]: '/images/titles/meowverse.png',

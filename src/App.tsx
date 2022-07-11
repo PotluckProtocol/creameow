@@ -10,6 +10,7 @@ import Footer from './views/Footer';
 import Mint from './views/Mint';
 import { useContext } from 'react';
 import { AccountContext } from './user/AccountContext';
+import ImageCarousel from './components/ImageCarousel';
 
 const VIEW_ID_MINT = 'mint';
 const VIEW_ID_ABOUT = 'about';

@@ -4,6 +4,6 @@ export type PriceFeedItem = {
 }
 
 export const CHAINLINK_PRICE_FEED_CONTRACT: PriceFeedItem = {
-    contractAddress: '0x11DdD3d147E5b83D01cee7070027092397d63658',
+    contractAddress: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419',
     decimals: 8,
 }

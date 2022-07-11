@@ -31,6 +31,7 @@ const Nav = styled.nav`
     top: 0;
     height: ${TOP_MENU_HEIGHT_PX}px;
     padding: 0 2rem;
+    z-index: 500;
 `;
 
 const Logo = styled.img``;
@@ -134,15 +135,17 @@ const TopMenu: React.FC<TopMenuProps> = ({
 
                     <MenuContainer className={menuContainerClasses}>
                         {isMinterApp() && (
-                            <div className='text-center my-8'>
+                            <div className='text-center mt-8'>
                                 <ConnectWalletButton fontSize={20} />
                             </div>
                         )}
-                        {navigationLinks.map((link, index) => (
-                            <Link className='block text-center w-full m-0 p-2' key={`menu-${index}`} onClick={createMenuLinkClickHandler(link.navTo)}>
-                                {link.text}
-                            </Link>
-                        ))}
+                        <div className='mt-8'>
+                            {navigationLinks.map((link, index) => (
+                                <Link className='block text-center w-full m-0 p-2' key={`menu-${index}`} onClick={createMenuLinkClickHandler(link.navTo)}>
+                                    {link.text}
+                                </Link>
+                            ))}
+                        </div>
                     </MenuContainer>
                     {isMenuOpen && (
                         <MenuShroud className='md:hidden' onClick={handleShroudClick} />

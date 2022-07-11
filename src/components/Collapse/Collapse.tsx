@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import classNames from 'classnames';
 import Icon, { IconType } from "./Icon";
 
 export type CollapseProps = {
@@ -11,7 +10,7 @@ export type CollapseProps = {
     title: string;
 }
 
-const Container = styled.button`
+const Container = styled.div`
     width: 100%;
     background-color: #FDF6EA;
     border: 3px solid #392E2C;
@@ -19,13 +18,17 @@ const Container = styled.button`
     padding: 1.5rem;
 `;
 
+const Button = styled.button``;
+
 const Title = styled.div`
+    text-align: left;
     font-size: 32px;
     font-family: Inter;
     font-weight: 600;
 `;
 
 const Content = styled.div`
+    padding-left: 3.6rem;
     text-align: left;
     font-size: 22px;
     font-family: Inter;
@@ -56,17 +59,13 @@ const Collapse: React.FC<CollapseProps> = ({
         }
     }
 
-    const containerClasses = classNames('flex', className);
-
     return (
-        <Container onClick={onClick} id={id} className={containerClasses}>
-            <div>
+        <Container id={id} className={className}>
+            <Button onClick={onClick} className='flex'>
                 <PositionedIcon type={open ? IconType.Open : IconType.Closed} />
-            </div>
-            <div>
                 <Title>{title}</Title>
-                {conditionallyRenderContent()}
-            </div>
+            </Button>
+            {conditionallyRenderContent()}
         </Container>
     );
 }

@@ -27,9 +27,9 @@ const Footer: React.FC<FooterProps> = ({
             <Image src='/images/footer/icecreamcat.png' className="mx-auto" />
 
             <div className="text-center mt-8">
-                <SocialIcon className="mx-6" type={SocialIconType.Twitter} url='' />
-                <SocialIcon className="mx-6" type={SocialIconType.Discord} url='' />
-                <SocialIcon className="mx-6" type={SocialIconType.Instagram} url='' />
+                <SocialIcon className="mx-6" type={SocialIconType.Twitter} url='https://twitter.com/HeyunLe' />
+                <SocialIcon className="mx-6" type={SocialIconType.Discord} url='https://discord.gg/potluckprotocol' />
+                <SocialIcon className="mx-6" type={SocialIconType.Instagram} url='https://instagram.com/heyun.art' />
             </div>
         </Container>
     );

@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import styled from "styled-components"
+import ImageCarousel from "../../components/ImageCarousel";
+import SocialIcon, { SocialIconType } from "../../components/SocialIcon";
 import commonViewClasses from "../commonViewClasses";
 import ArtistVideo from "./ArtistVideo";
 
@@ -13,7 +15,7 @@ const Container = styled.div`
     background-repeat: no-repeat;
     background-position: top center;
     padding-top: 8rem;
-    padding-bottom: 26rem;
+    padding-bottom: 8rem;
 `;
 
 const Image = styled.img``;
@@ -29,6 +31,33 @@ const Paragraph = styled.p`
     margin: 0;
     padding: 0;
 `;
+
+const CAROUSEL_IMAGES = [
+    '/images/previews/01.png',
+    '/images/previews/02.png',
+    '/images/previews/03.png',
+    '/images/previews/04.png',
+    '/images/previews/05.png',
+    '/images/previews/06.png',
+    '/images/previews/07.png',
+    '/images/previews/08.png',
+    '/images/previews/09.png',
+    '/images/previews/10.png',
+    '/images/previews/11.png',
+    '/images/previews/12.png',
+    '/images/previews/01.png',
+    '/images/previews/02.png',
+    '/images/previews/03.png',
+    '/images/previews/04.png',
+    '/images/previews/05.png',
+    '/images/previews/06.png',
+    '/images/previews/07.png',
+    '/images/previews/08.png',
+    '/images/previews/09.png',
+    '/images/previews/10.png',
+    '/images/previews/11.png',
+    '/images/previews/12.png',
+]
 
 const Artist: React.FC<ArtistProps> = ({
     className,
@@ -52,6 +81,19 @@ const Artist: React.FC<ArtistProps> = ({
             </div>
 
             <ArtistVideo className="mx-auto" />
+
+            <div className="text-center my-8">
+                <SocialIcon className="mx-6" type={SocialIconType.Twitter} url='https://twitter.com/HeyunLe' />
+                <SocialIcon className="mx-6" type={SocialIconType.Discord} url='https://discord.gg/potluckprotocol' />
+                <SocialIcon className="mx-6" type={SocialIconType.Instagram} url='https://instagram.com/heyun.art' />
+            </div>
+
+            <div className="pt-16">
+                <ImageCarousel
+                    images={CAROUSEL_IMAGES}
+                />
+            </div>
+
         </Container>
     )
 }

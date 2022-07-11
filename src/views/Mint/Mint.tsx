@@ -15,8 +15,6 @@ import useMintContract from "./useMintContract";
 import { MintState } from "./useMintContract/MintContract";
 import moment from 'moment';
 
-const MINT_CONTRACT_ADDRESS = '0xE3763f557933B3396795ad3920Dd7D191359CcEF'; // ROBOTO FTM!!
-
 export type MintProps = {
     viewId: string;
     className?: string;
@@ -86,7 +84,7 @@ const Mint: React.FC<MintProps> = ({
     className,
     viewId
 }) => {
-    const mintContract = useMintContract(MINT_CONTRACT_ADDRESS);
+    const mintContract = useMintContract(process.env.MINT_CONTRACT_ADDRESS);
     const mintDetails = useCreameowMintDetails(mintContract);
     const user = useUser();
     const [selectedAmount, setSelectedAmount] = useState<number>(1);
@@ -189,7 +187,7 @@ const Mint: React.FC<MintProps> = ({
                 <EarlyAccessContainer className='mx-auto mt-8'>
                     <Title type={TitleType.EarlyAccess} className='mb-2' />
                     <EarlyAccessTime className='mb-2'>• {moment(mintDetails.mintWhitelistStartsAt).utc().format('MMMM Do h a [UTC]')} •</EarlyAccessTime>
-                    <BoldParagraph >To get your Creameow Access Pass: Join our discord for more info!</BoldParagraph>
+                    <BoldParagraph >To get your Creameow Access Pass: <a href="https://discord.gg/potluckprotocol" target="_blank">Join our discord</a> for more info!</BoldParagraph>
                     <Image className="mx-auto mt-4" src='/images/mint/tickets.png' />
                 </EarlyAccessContainer>
             )}
