@@ -107,8 +107,6 @@ export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
                 signer
             });
 
-            console.log('s');
-
             setIsInitialized(true);
             localStorage.setItem(WALLET_PROVIDER_KEY, walletType);
         } finally {
