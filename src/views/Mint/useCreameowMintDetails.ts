@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { MintContractEvents, MintState } from "./useMintContract/MintContract";
 import { BigNumber } from "ethers";
 
-const PUBLIC_MINT_STARTS_AT: string = '2022-07-16T20:00:00Z';
+const PUBLIC_MINT_STARTS_AT: string = '2022-07-16T19:00:00Z';
 const WHITELIST_MINT_STARTS_AT: string = '2022-07-15T20:00:00Z';
 
 export type MintDetails = {
@@ -22,13 +22,17 @@ const useCreameowMintDetails = (mintContract: MintContract | null): MintDetails 
 
     const mintedSupplyCallback = (mintedSupply: number) => {
         if (mintDetails) {
-            setMintDetails({ ...mintDetails, mintedSupply });
+            setMintDetails(
+                state => state ? ({ ...state, mintedSupply }) : state
+            );
         }
     }
 
     const mintStateCallback = (mintState: MintState) => {
         if (mintDetails) {
-            setMintDetails({ ...mintDetails, mintState });
+            setMintDetails(
+                state => state ? ({ ...state, mintState }) : state
+            );
         }
     }
 
