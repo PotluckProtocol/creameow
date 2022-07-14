@@ -118,7 +118,7 @@ class MintContract extends EventEmitter {
             throw new Error('No contract address defined');
         }
 
-        const mintPrice = BigNumber.from('25000000000000000000');
+        const mintPrice = this.opts.fixedMintPrice;
 
         (window as any).price = mintPrice.mul(amount);
 

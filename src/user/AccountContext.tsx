@@ -104,7 +104,8 @@ export const AccountProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
 
             setAccount({
                 walletAddress,
-                signer
+                signer,
+                networkId
             });
 
             setIsInitialized(true);

@@ -14,6 +14,7 @@ import useCreameowMintDetails from "./useCreameowMintDetails";
 import useMintContract from "./useMintContract";
 import { MintState } from "./useMintContract/MintContract";
 import moment from 'moment';
+import { CHAIN_ID } from "../../user/Chain";
 
 export type MintProps = {
     viewId: string;
@@ -41,9 +42,8 @@ const Image = styled.img``;
 const NotConnectedText = styled.p`
     text-align: center;
     font-family: Inter;
-    font-size: 44px;
-    font-weight: 800;
-    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
 `;
 
 const MintedAmount = styled.div`
@@ -80,6 +80,13 @@ const BoldParagraph = styled(Paragraph)`
     font-weight: 600;
 `;
 
+const WrongNetwork = styled.div`
+    text-align: center;
+    font-family: Inter;
+    font-size: 32px;
+    font-weight: 700;
+`;
+
 const Mint: React.FC<MintProps> = ({
     className,
     viewId
@@ -91,10 +98,11 @@ const Mint: React.FC<MintProps> = ({
     const [isMinting, setIsMinting] = useState(false);
 
     if (!mintContract || !mintDetails) {
-        return <div>Loading...</div>
+        return (
+            <div>Loading...</div>
+        );
     }
 
-    const hasWalletConnected = !!user.account;
     //const isWhitelistSale = (mintDetails.mintState === MintState.Whitelist);
     const mintButtonDisabled = (
         isMinting ||
@@ -127,6 +135,28 @@ const Mint: React.FC<MintProps> = ({
         }
     }
     */
+
+    const renderMint = () => {
+        if (!user.account) {
+            return (
+                <NotConnectedText>
+                    Connect your wallet to mint!
+                </NotConnectedText>
+            );
+        } else if (user.account.networkId !== CHAIN_ID) {
+            return (
+                <WrongNetwork>
+                    Wrong network, connect to Ethereum Mainnet
+                </WrongNetwork>
+            );
+        } else {
+            return (
+                <MintButton onClick={handleClickMintButton} disabled={mintButtonDisabled} className="mx-auto">
+                    {isMinting ? 'MINTING...' : 'MINT'}
+                </MintButton>
+            );
+        }
+    }
 
     const containerClasses = classNames('mt-12', 'mx-auto', className, ...commonViewClasses);
     return (
@@ -162,13 +192,7 @@ const Mint: React.FC<MintProps> = ({
                 {isMinterApp() && (
                     <>
                         <div className="text-center mb-9">
-                            {hasWalletConnected ? (
-                                <MintButton onClick={handleClickMintButton} disabled={mintButtonDisabled} className="mx-auto">
-                                    {isMinting ? 'MINTING...' : 'MINT'}
-                                </MintButton>
-                            ) : (
-                                <NotConnectedText>Connect your wallet to mint!</NotConnectedText>
-                            )}
+                            {renderMint()}
                         </div>
 
                         <AmountSelector

@@ -4,7 +4,7 @@ import useUser from "../../../user/useUser";
 import { isMinterApp } from "../../../utils/getAppType";
 import MintContract, { MintContractOpts } from "./MintContract";
 
-const MINT_GAS_LIMIT = 285000;
+const MINT_GAS_LIMIT = 300000;
 const MINT_STATE_REFRESH_INTERVAL_MS = 5000;
 const MINTED_SUPPLY_REFRESH_INTERVAL_MS = 5000;
 const FIXED_MAX_SUPPLY = 5555;
